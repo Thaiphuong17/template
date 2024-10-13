@@ -1,4 +1,4 @@
-<div class="navbar-bg"></div>
+<!-- <div class="navbar-bg"></div> -->
 {{-- Navbar start --}}
 @include('admin.layouts.navbar')
 {{-- Navbar end --}}
@@ -10,17 +10,17 @@
         <ul class="sidebar-menu">
             <li class="menu-header">Dashboard</li>
             <li class="active">
-                <a href="#" class="nav-link"><i
+                <a href="#" class="nav-link text-dark"><i
                         class="fas fa-fire"></i><span>Dashboard</span></a>
             </li>
             <li class="menu-header">Starter</li>
 
             <li class=""><a class="nav-link"
-                        href="#"><i class="fas fa-list"></i>
+                        href="{{route('categories')}}"><i class="fas fa-list"></i>
                         <span>Category</span></a></li>
 
                         <li class=""><a class="nav-link"
-                        href="#"><i class="fas fa-newspaper"></i>
+                        href="{{route('admin_news')}}"><i class="fas fa-newspaper"></i>
                         <span>News</span></a></li>
 
 
