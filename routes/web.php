@@ -62,6 +62,9 @@ Route::get('/send-otp', function () {
 });
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 0908261 (Cập nhật code mới nhất ngày 24/12)
 Route::post('/send-otp-sms', [OTPController::class, 'sendOtpToUser'])->name('sendOtp');
 
 // Route::post('/send-sms', [SmsController::class, 'sendSms']);
@@ -75,7 +78,10 @@ Route::get('/get-csrf-token', function () {
 
 require __DIR__ . '/api.php';
 require __DIR__ . '/auth.php';
+<<<<<<< HEAD
 =======
 require __DIR__.'/api.php'; 
 require __DIR__.'/auth.php';
 >>>>>>> 51b1814 (moinhat)
+=======
+>>>>>>> 0908261 (Cập nhật code mới nhất ngày 24/12)
