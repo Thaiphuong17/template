@@ -11,8 +11,10 @@
                         <div class="row d-flex justify-content-between align-items-center">
                             <div class="header-info-left">
                                 <ul>
-                                    <li><img src="Frontend/assets/img/icon/header_icon1.png" alt="">34ºc, Sunny </li>
-                                    <li><img src="Frontend/assets/img/icon/header_icon1.png" alt="">Tuesday, 18th June,
+                                    <li><img src="Frontend/assets/img/icon/header_icon1.png" alt="">34ºc, Sunny
+                                    </li>
+                                    <li><img src="Frontend/assets/img/icon/header_icon1.png" alt="">Tuesday, 18th
+                                        June,
                                         2019</li>
                                 </ul>
                             </div>
@@ -33,61 +35,55 @@
                         <!-- Logo -->
                         <div class="col-xl-6 col-lg-3 col-md-3">
                             <div class="logo">
-                                <a href="{{route('home')}}"><img src="{{asset('Frontend/assets/img/logo/logo.png')}}"
-                                        alt=""></a>
+                                <a href="{{ route('home') }}"><img
+                                        src="{{ asset('Frontend/assets/img/logo/logo.png') }}" alt=""></a>
                             </div>
                         </div>
 
 
                         @if (Auth::check())
-                            <!--Hiển thị các thông tin khi đăng nhập-->
+                            <!-- Hiển thị các thông tin khi đăng nhập -->
                             <div class="col-xl-6 col-lg-9 col-md-9">
                                 <div class="dropdown d-flex justify-content-end">
                                     <button style="background: none;"
-                                        class="dropdown-toggle border-0 d-flex align-items-center text-black" type="button"
-                                        id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                                        <a style="color: #635c5c;" href="#">
-                                            <p>Hi, {{ optional(Auth::user())->name }}</p>
-                                            <!-- <i class="fa-solid fa-user"></i> -->
-                                        </a>
+                                        class="dropdown-toggle border-0 d-flex align-items-center text-black"
+                                        type="button" id="dropdownMenuButton" data-bs-toggle="dropdown"
+                                        aria-expanded="false">
+                                        <p class="m-0" style="color: #635c5c;">Hi, {{ optional(Auth::user())->name }}
+                                        </p>
                                     </button>
                                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                        @if (Auth::user()->role == '1')
-                                            <li><a class="dropdown-item" href="{{route('categories')}}">Trang quản trị</a></li>
-                                            <a class="dropdown-item" href="#"
-                                                onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                                                Đăng xuất
-                                            </a>
-                                        @else
-                                            <a class="dropdown-item" href="#"
-                                                onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                                                Đăng xuất
-                                            </a>
+                                        @if (Auth::user()->role == 'role')
+                                            <li><a class="dropdown-item" href="{{ route('admin_news') }}">Trang quản
+                                                    trị</a></li>
                                         @endif
-                                        </a>
-                                        <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                                            @csrf
-                                        </form>
-
-
+                                        <li><a class="dropdown-item" href="#"
+                                                onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Đăng
+                                                xuất</a></li>
+                                    </ul>
+                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                        @csrf
+                                    </form>
+                                </div>
+                            </div>
+                        @else
+                            <!-- Hiển thị các thông tin khi chưa đăng nhập -->
+                            <div class="col-xl-6 col-lg-9 col-md-9">
+                                <div class="dropdown d-flex justify-content-end">
+                                    <button style="background: none;"
+                                        class="dropdown-toggle border-0 d-flex align-items-center text-black"
+                                        type="button" id="dropdownMenuButton" data-bs-toggle="dropdown"
+                                        aria-expanded="false">
+                                        <i class="fa-solid fa-user" style="color: #635c5c;"></i>
+                                    </button>
+                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                        <li><a class="dropdown-item" href="{{ route('login') }}">Đăng nhập</a></li>
+                                        <li><a class="dropdown-item" href="{{ route('register') }}">Đăng ký</a></li>
                                     </ul>
                                 </div>
                             </div>
-                            <!--Hiển thị các thông tin khi chưa đăng nhập-->
-                        @else
-                            <div class="col-xl-6 col-lg-9 col-md-9">
-                                <div class="dropdown d-flex justify-content-end">
-                                    <button style="background: none;"
-                                        class="dropdown-toggle border-0 d-flex align-items-center text-black" type="button"
-                                        id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                                        <a style="color: #635c5c;" href="#"
-                                            onclick="window.location='{{ route('login') }}';">
-                                            <i class="fa-solid fa-user"></i>
-                                        </a>
-                                    </button>
-                                </div>
-                            </div>
                         @endif
+
 
 
                     </div>
@@ -108,7 +104,7 @@
                                         @foreach ($navCategories as $nav)
                                             <li>
                                                 <a
-                                                    href="{{ route('news', ['category' => $nav->slug])}}">{{ $nav->name }}</a>
+                                                    href="{{ route('news', ['category' => $nav->slug]) }}">{{ $nav->name }}</a>
                                             </li>
                                         @endforeach
                                     </ul>

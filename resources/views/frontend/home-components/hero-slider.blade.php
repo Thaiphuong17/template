@@ -27,7 +27,7 @@
                                 @if ($loop->index <= 0)
                                     <img src="{{ asset('Frontend/assets/' . $news->image) }}" alt="">
                                     <div class="trend-top-cap">
-                                        <h2><a href="details.html">{{$news->title}}<br></a></h2>
+                                        <h2><a href="{{ route('detail',['category'=>$news->category->slug,'slug'=>$news->slug,'id'=>$news->id]) }}">{{$news->title}}<br></a></h2>
                                         <!-- <p style="color:#fff;">{{$news->content}}</p> -->
                                     </div>
                                 @endif
@@ -46,7 +46,7 @@
                                             </div>
                                             <div class="trend-bottom-cap">
                                                 <span class="color1">Lifestyple</span>
-                                                <h4><a href="details.html">{{$news->title}}</a></h4>
+                                                <h4><a href="{{ route('detail',['category'=>$news->category->slug,'slug'=>$news->slug,'id'=>$news->id]) }}">{{$news->title}}</a></h4>
                                             </div>
                                         </div>
                                     </div>

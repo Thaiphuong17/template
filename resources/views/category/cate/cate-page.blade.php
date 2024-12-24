@@ -4,12 +4,11 @@
         <nav class="breadcrumb bg-transparent m-0 p-0">
             <a class="breadcrumb-item" href="#">Home</a>
             <a class="breadcrumb-item" href="#">Category</a>
-            <span class="breadcrumb-item active">Technology</span>
+            <span class="breadcrumb-item active">{{ isset($category) ? $category->name : 'All News' }}</span>
         </nav>
     </div>
 </div>
-<!-- Breadcrumb End -->
-<!-- News With Sidebar Start -->
+
 <div class="container-fluid py-3">
     <div class="container">
         <div class="row">
@@ -18,8 +17,15 @@
                     <div class="col-12">
                         <div class="d-flex align-items-center justify-content-between bg-light py-2 px-4 mb-3">
 
-                            <h3 class="m-0">Technology</h3>
-                            <a class="text-secondary font-weight-medium text-decoration-none" href="">View All</a>
+                            
+                                <h3 class="m-0">
+                                    {{ isset($category) ? $category->name : 'All News' }}
+                                </h3>
+                           
+                            
+                            {{-- @dd($categories) --}}
+
+                            <a class="text-secondary font-weight-medium text-decoration-none" href="{{ route('news', ['view_all' => 1]) }}">View All</a>
                         </div>
                     </div>
 
@@ -32,11 +38,16 @@
                                     style="object-fit: cover;">
                                 <div class="overlay position-relative bg-light">
                                     <div class="mb-2" style="font-size: 14px;">
-                                        <a href="">Technology</a>
+                                        <a href="{{ $new->detail_url}}">
+                                            {{ $new->category->name }} <!-- Hiển thị slug của danh mục -->
+                                        </a>
+                                        {{-- @php
+                                          echo $new->name
+                                        @endphp --}}
                                         <span class="px-1">/</span>
                                         <span>January 01, 2045</span>
                                     </div>
-                                    <a class="h4" href="">{{$new->title}}</a>
+                                    <a class="h4" href="{{ route('detail',['category'=>$new->category->slug,'slug'=>$new->slug,'id'=>$new->id]) }}">{{$new->title}}</a>
 
                                 </div>
                             </div>
@@ -253,6 +264,12 @@
                 </div> -->
                 <div class="row">
                     <div class="col-12">
+                        {{-- Hiển thị phân trang --}}
+                        {{ $news->links() }}
+                    </div>
+                </div>
+                {{-- <div class="row">
+                    <div class="col-12">
                         <nav aria-label="Page navigation">
                             <ul class="pagination justify-content-center">
                                 <li class="page-item disabled">
@@ -273,7 +290,7 @@
                             </ul>
                         </nav>
                     </div>
-                </div>
+                </div> --}}
             </div>
 
             <div class="col-lg-4 pt-3 pt-lg-0">
@@ -290,7 +307,7 @@
                                 style="height: 100px;">
                                 <div class="mb-1" style="font-size: 13px;">
                                     @if (request()->has('category'))
-                                        <a href="">Category:{{request()->category}}</a>
+                                        <a href="">{{$category->name}}</a>
                                     @endif
 
                                     <span class="px-1">/</span>
@@ -305,9 +322,9 @@
                         <div class="w-100 d-flex flex-column justify-content-center bg-light px-3"
                             style="height: 100px;">
                             <div class="mb-1" style="font-size: 13px;">
-                                @if (request()->has('category'))
+                                {{-- @if (request()->has('category'))
                                     <a href="">Category:{{request()->category}}</a>
-                                @endif
+                                @endif --}}
 
                                 <span class="px-1">/</span>
                                 <span>January 01, 2045</span>

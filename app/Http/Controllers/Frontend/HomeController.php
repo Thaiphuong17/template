@@ -13,7 +13,7 @@ class HomeController extends Controller
     public function index()
     {
         $user = Auth::user();
-        // var_dump($user->name);
+        $news = News::with('category')->get();
         $hot = News::with(['category'])
             ->where('is_breaking_news', 1)
             ->where('status', 1)
@@ -21,22 +21,18 @@ class HomeController extends Controller
             ->orderBy('id', 'Desc')
             ->take(10)
             ->get();
-
-        // $mostViewedPosts = News::activeEntries()
-        // ->orderBy('views','DESC')
-        // ->take(4)
-        // ->get();
-
+            
+        
         return view('home', compact(
             'hot',
             'user',
-            // 'mostViewedPosts',
+            'news',
         ));
     }
     public function news(Request $request)
     {
         $news = News::query();
-
+        // dd($news);
         $news->when($request->has('category') && !empty($request->category), function ($query) use ($request) {
             $query->whereHas('category', function ($query) use ($request) {
                 $query->where('slug', $request->category);
@@ -47,7 +43,14 @@ class HomeController extends Controller
            
         });
 
-        $news = $news->paginate(4);
+        if ($request->has('view_all')) {
+            $news = $news->paginate(4); // Lấy tất cả bài viết
+        } else {
+            $news = $news->paginate(4); // Lấy 4 bài viết mỗi trang (phân trang)
+        }
+
+        $news->appends($request->except('page'));
+
         $recentNews = News::with(['category'])
             ->activeEntries()
             ->orderBy('views', 'DESC')
@@ -55,30 +58,47 @@ class HomeController extends Controller
             ->get();
 
         $query = $request->input('query');
-        // $news = News::Where('title', 'LIKE', '%($query)%')
-        //     ->orWhere('content', 'LIKE', '%($query)%')
-        //     ->get();
 
+        $categories = Category::where('status', 1)->get(); 
 
-        $categories = Category::where(['status' => 1])
-            ->get();
+        $category = null;
+        if($request->has('category')) {
+            $category = Category::where('slug', $request->category)->first();
+        }
 
-        return view('category', compact('news', 'recentNews', 'categories'));
+            // dd($categories);
+
+        return view('category', compact(
+            'news', 
+        'recentNews', 
+                    'categories',
+                    'category'
+        ));
     }
     public function show_detail($category, $id)
     {
         $detail = News::findOrFail($id);
         $newsCategory = Category::findOrFail($detail->category_id);
+        $news = News::with('category')->get();
+        // dd($news);
+
+        foreach($news  as $new){
+            $new->detail_url = route('detail',['category'=>$new->category->name,'id'=>$new->id]);
+        }
 
         if ($newsCategory->slug !== $category) {
             return abort(404); // Nếu danh mục không khớp, trả về 404
         }
+        //  dd($newsCategory);
 
         return view('detail', [
             'detail' => $detail,
-            'newsCategory' => $newsCategory
+            'newsCategory' => $newsCategory,
+            'news' => $news,
         ]);
     }
+ 
+    
 
 
 }

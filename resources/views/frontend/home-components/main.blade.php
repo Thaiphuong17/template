@@ -25,7 +25,7 @@
                                         </div>
                                         <div class="weekly-caption">
                                             <!-- <span class="color1"></span> -->
-                                            <h4><a href="#">{{$news->title}}</a></h4>
+                                            <h4><a href="{{ route('detail',['category'=>$news->category->slug,'slug'=>$news->slug,'id'=>$news->id]) }}">{{$news->title}}</a></h4>
                                         </div>
                                     </div>
                                 @endif
